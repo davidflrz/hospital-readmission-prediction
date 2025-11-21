@@ -52,8 +52,11 @@ def get_database_connection():
             MONGODB_URI,
             serverSelectionTimeoutMS=10000,
             connectTimeoutMS=10000,
-            socketTimeoutMS=10000
+            socketTimeoutMS=10000,
+            tls=True,
+            tlsAllowInvalidCertificates=True
         )
+        # Test connection
         client.admin.command('ping')
         db = client['healthcare_db']
         collection = db['patient_readmissions']
