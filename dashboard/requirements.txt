@@ -4,3 +4,4 @@ numpy
 plotly
 pymongo[srv]
 dnspython
+joblib
