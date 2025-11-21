@@ -42,24 +42,17 @@ st.markdown("---")
 
 @st.cache_resource
 def get_database_connection():
-    import ssl
-    
     # Intentar usar secrets
     try:
         MONGODB_URI = st.secrets["mongodb"]["uri"]
     except Exception:
-        MONGODB_URI = "mongodb+srv://admin_user:camushi1@healthcare-cluster.ygij2hu.mongodb.net/?retryWrites=true&w=majority"
+        MONGODB_URI = "mongodb+srv://admin_user:camushi1@healthcare-cluster.ygij2hu.mongodb.net/?retryWrites=true&w=majority&tlsAllowInvalidCertificates=true"
     
     try:
-        # Deshabilitar verificación SSL para Streamlit Cloud
         client = MongoClient(
             MONGODB_URI,
             serverSelectionTimeoutMS=30000,
-            connectTimeoutMS=30000,
-            socketTimeoutMS=30000,
-            tls=True,
-            tlsAllowInvalidCertificates=True,
-            ssl_cert_reqs=ssl.CERT_NONE
+            connectTimeoutMS=30000
         )
         # Test connection
         client.admin.command('ping')
