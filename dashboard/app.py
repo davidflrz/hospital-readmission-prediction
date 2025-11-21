@@ -45,7 +45,7 @@ def get_database_connection():
     # Intentar usar secrets primero, si falla usar directo (para desarrollo local)
 try:
     MONGODB_URI = st.secrets["mongodb"]["uri"]
-except:
+except Exception:
     MONGODB_URI = "mongodb+srv://admin_user:camushi1@healthcare-cluster.ygij2hu.mongodb.net/?appName=healthcare-cluster"
     try:
         client = MongoClient(
