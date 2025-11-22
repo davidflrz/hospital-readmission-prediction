@@ -42,18 +42,16 @@ st.markdown("---")
 
 @st.cache_resource
 def get_database_connection():
-    # Intentar usar secrets
+    import os
+    
+    # Intentar usar secrets primero, luego variable de entorno
     try:
         MONGODB_URI = st.secrets["mongodb"]["uri"]
-    except Exception:
-        MONGODB_URI = "mongodb+srv://admin_user:camushi1@healthcare-cluster.ygij2hu.mongodb.net/?retryWrites=true&w=majority&tlsAllowInvalidCertificates=true"
+    except:
+        MONGODB_URI = os.getenv("MONGODB_URI", "mongodb+srv://admin_user:camushi1@healthcare-cluster.ygij2hu.mongodb.net/?retryWrites=true&w=majority")
     
     try:
-        client = MongoClient(
-            MONGODB_URI,
-            serverSelectionTimeoutMS=30000,
-            connectTimeoutMS=30000
-        )
+        client = MongoClient(MONGODB_URI)
         # Test connection
         client.admin.command('ping')
         db = client['healthcare_db']
